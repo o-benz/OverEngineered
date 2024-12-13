@@ -1,0 +1,304 @@
+Question 1 :
+Cochez tous les énoncés qui sont vrais
+Quelle(s) méthode(s) permettent de dessiner un cercle à l'écran?
+
+- Envoyer un triangle fan très affiné. ✓
+- Envoyer un quad et utiliser smoothstep() dans le nuanceur de sommets.
+- Envoyer une primitive quelconque puis, dans le nuanceur de sommets, utiliser une formule de cercle pour cacher ou dessiner les sommets du cercle.
+- Envoyer une primitive quelconque puis, dans le nuanceur de fragments, utiliser une formule de cercle pour cacher ou dessiner les fragments du cercle. ✓
+
+Question 2 :
+Cochez tous les énoncés qui sont vrais
+
+- Il est possible d'afficher une scene openGL sans utiliser de nuanceurs
+- On utilise presque exclusivement la primitive "triangle" ou "triangle_strip" car il est possible de représenter avec fidélité presque tous les polygones imaginables en supposant un nombre de triangle élevé ✓
+- Le nuanceur de géomètre doit toujours être créé avec la fonction glCreateShader() même s'il n'est pas utilisé (on passe alors un string vide comme code de nuancer)
+- Les matrices de transformations peuvent être concatené en une seule matrice puisque la multiplication matriciele est associative ✓
+
+Question 3 :
+Décrivez (en vos propres mots) comment est utilisé le tampon de profondeur pour la suppression des parties cachées d'un objet graphique Prenez soin de bien identiter les attributs des fragments ou les valeurs dans les tampons qui sont utilisés. Dites aussi ce que contient ou peut contient ce tampon de profondeur.
+
+- Le tampon de profondeur stocke la distance entre le point de vue et la portion de l'objet qui doit s'ajouter au meme pixel ne sera dessiner que si il est plus proche du point de vue et c'est la distance qui sera stockée dans le tampon de profondeur faut user gDepthMask(GL_TRUE) (permet de mettre à jour au fur et mesure rajout des objets)
+
+Question 4 :
+Expliquez ce que représente un point de fuite :
+
+- Le point de fute est un point dans notre scene vers lequel on veut donner une illusion de profondeur/distance (effet 3D) Les objets dans la scene on des axes qui se dirige vers se point de fuite qui est unique. Par exemple, si on voulais dessiner une rue avec les maison sur le bord et avoir un effet realiste la rue ne serait pas dessinée comme deux ligne parallele mais deux lignes qui se croise vers le point de fuite
+Comme ceci /\au eu de ||
+
+Question 5 :
+Lorsque le test de profondeur est utilisé (gEnable(GL_DEPTH TEST)), est-ce que le rendu à l'écran est toujours le même, peu importe l'ordre dans lequel les primitives sont tracées (en supposant bien sûr qu'on garde le même point de vue et la même projection)? Pourquoi ? 
+
+- Oui, il sera toujours le meme car le depth test va comparer les objets que si un pixel vient s'ajouter au dessus de l'objet qui est deja dessiner. C'est la distance des objets qui peut modifier le rendu a l'écran.
+
+Question 6 :
+Différenciez les panneaux et les lutins et expliquez les avantages de l'utilisation de chacun. Donnez un exemple d'utilisation de chacun d'eux.
+
+- Il permet d'eviter de faire des gros calcul pour afficher des objets 30
+- Utilisation : Généralement un panneau est pratique pour afficher quelque chose de statique dans une scene. Par exemple un menu, une zone de vie ou inventaire.
+
+Question 7 :
+En affichant une scène composée de plusieurs triangles avec OpenGL, vous constatez que beaucoup de triangles sont visibles à l'écran, tandis que d'autres triangles n'apparaissent pas (Ce n'est pourtant pas une erreur et on peut même dire que c'est un résultat courant dans un programme graphique; vous n'avez pas à supposer une erreur de programmation)
+Donnez cing (5) raisons ou situations distinctes qui peuvent faire qu'aucune partie d'un triangle ne soit visible à l'écran. Utlisez des termes et concepts en lien avec finfographie
+
+1) Le test de profondeur (GLEnable(GL_ Depth Test)).
+2) Le backface Culling (glEnable(GL_CULL FACE))
+3) Le clipping de triangle est en dehors du volume de vue (frustum) donc il est éliminés
+4) Le stencil test glEnable(GL_STENCIL TEST))
+5) Fragment discard en utilisant discard.
+
+Question 8 :
+Les courbes paramétriques que nous avons vues sont définies par la relation
+Σn,i=1 Ni,k(t) Gi
+où la forme des fonctions de base N(1) diffère d'une courbe à l'autre.
+Identifiez le type de chacune des courbes suivantes :
+
+A - Bézier
+B - NURBS
+C - Spline Cubique
+D - B-Spline
+
+
+Question 9 :
+Quelle est la différence entre une courbe d'interpolation et une courbe d'approximation? Donnez un exemple d'utilisation pour chacune.
+
+- Les courbes d'interpolation passent par tout les points de controles tandis qu'une courbes d'approximation passent par certains points mais en générale non.
+- Les courbes d'interpolation sont les splines lineaires et cubiques
+Les courbes d'approximation sont les courbes de Bezier, 8-Splines et les NURBS
+
+Question 10 :
+Supposez deux B-Splines et leur enveloppe convexe respective formée des points de contrôle de chaque courbe
+1. Si les deux enveloppes convexes des courbes n'ont aucune région en commun, peut-on conclure que les deux B-Splines ne s'intersectent pas ? Pourquoi ?
+2. Si les deux enveloppes convexes des courbes ont une région en commun, peut-on conclure que les deux B-Splines s'intersectent dans cette région ? Pourquoi ?
+
+1) Oui on peut conclure que les deux B-Splines ne s'intersecte pas car pour les B-Splines, la courbes est toujours dans l'enveloppe convexe, alors si les deux enveloppes ne s'intersecte pas, alors les courbes ne peuvent pas se croiser.
+2) Non on ne peut pas conclure que les deux droites s'intersectent. Certes y a des chances que ces droites s'intersectent mais pas nécessairement. En effet, les courbes peuvent avoir une direction opposer et ne jamais se croiser. (difficile a expliqué sans dessin).
+
+Question 11 :
+Dans le modèle de réflexion locale de la lumière communément utilisé en infographie, trois sortes de réflexion sont définies: ambiante, diffuse et spéculaire. Pour chaque élément ci-dessous, identifiez toutes les réflexions (parmi ces trois) sur laquelle ou lesquelles cet élément a une influence. (Inscrire des X ou autre marque dans la case appropriée, Si un élément n'a aucune influence laisser la rangée vide)
+
+- La position de la source lumineuse : Diffuse, Spéculaire
+- La position des autres objets de la scène : Aucune
+- Le vecteur normal à la surface : Diffuse, Spéculaire
+- La position de l'observateur : Spéculaire
+- La présence d'un autre objet situé entre l'objet éclairé et la source lumineuse : Aucune
+- Le nombre total d'objets dans la scène : Aucune
+- La luminosité de l'écran : Aucune
+- Les propriétés de matériau de l'objet : Ambiante, Diffuse, Spéculaire
+
+
+Question 12 :
+Nous désirons modéliser, à l'aide d'OpenGL, différentes situations telles que décrites plus bas. Pour chacune de ces situations, décrivez comment vous pourriez reproduire l'animation à raide des notions vues en cours et identifiez les limites de vos solutions N'oubliez pas de justifier le tout. (Soyez bref dans vos explications)
+
+1. Une balle rebondissant sur le sol
+2. Usain Bolt lors d'un sprint olympique sur 100m
+3. Un électron qui se déplace dans un champ magnétique uniforme.
+
+1) Utiliser une rétroaction et un facteur temps pour simuler die déplacement de la balle (g/TransformFeedBack Varings). Il faut utiliser deux VBO qui vont s'échanger l'un apres l'autre. A chaque instant T (temps), la balle va avoir une nouvelle position, vitesse et forme. Comme au TP4, nous avons une boule de feu avec des particules qui se déplacent vers le haut de notre écran. Nous pouvons faire le meme effet avec la balle sauf que le temps de vie est le meme que le temps. Pour dessiner la balle nous pouvons utiliser des courbes d'approximation afin de simuler la balle qui se déforme quand elle rebondit sur le sol. Mais ceci nécessite beaucoup de calcul et consomme d'énergie pour notre CPU ou GPU.
+2) Nous pouvons utiliser des lutins pour le coureur et un panneaux pour le stade/piste) car le mouvement du coureur sont tres répéttif et similaire. Il faudrait avoir plusieurs images des mouvements et les remplacer les une apres les autres pour donner un effet d'animation. Le probleme est que ceci ne donne pas un 
+effet tres réaliste 
+3) Nous pouvons également utiliser un facteur de temps et une rétroaction active en mettant la position de la particule comme élément variant car elle va bouger avec le temps. La vitesse est uniforme elle ne sera pas dans la tableau de varings.
+
+Question 13 :
+Vous avez utilisé le langage GLSL pour écrire plusieurs types de nuanceurs dans vos applications graphiques. Dans les sous-questions ci-dessous, montrez que vous avez bien compris le fonctionnement du langage en ne donnant pas simplement une traduction du nom de GLSL, mais en donnant plutôt un élément qui montre que vous comprenez bien l'utilisation de la fonction ou de la variable.
+1. Que représente la valeur retournée par la fonction "mix(V1, V2, 0.5)"?
+2. A quoi sert la fonction "texture(a, b)" et qu'est ce qui est retournée par cette fonction?
+3. A quoi sert la fonction "discard" et dans quel(s) type(s) de nuanceurs peut-on l'utiser?
+4. A quoi sert une variable de type "sampler2D" et dans quel(s) type(s) de nuanceurs peut-on l'utiliser?
+5. A quoi sert la fonction "normalize(myVec)" et quelle est la valeur retourée par cette fonction?
+6. A quoi sert la variable "gl_Position"? Dans quel(s) type(s) de nuanceurs n'est-elle jamais utilisée?
+
+1) La valeur retournée par "mix(V1, V2, 0.5)" représente une interpolation linéaire entre V1 et V2 avec un coefficient de mélange de 0.5.
+2) La fonction "texture(a, b)" est utilisée pour échantillonner une texture "a" à partir des coordonnées de texture "b". Elle retourne la couleur échantillonnée de la texture.
+3) La fonction "discard" est utilisée pour rejetter un fragment dans le nuanceur de fragment. Elle est utilisée pour ne pas dessiner un fragment spécifique en fonction d'une condition donnée.
+4) Une variable de type "sampler2D" est utilisée pour stocker une texture 2D dans un nuanceur de fragment. Elle peut également être utilisée dans un nuanceur de vertex pour transmettre des coordonnées de texture.
+5) La fonction "normalize(myVec)" normalise un vecteur "myVec" en le mettant à l'échelle pour qu'il ait une longueur de 1. Elle retourne le vecteur normalisé.
+6) La variable "gl_Position" est utilisée pour stocker la position d'un vertex dans l'espace de projection. Elle est utilisée uniquement dans les nuanceurs de vertex et n'est jamais utilisée dans les nuanceurs de fragment.
+
+Question 14 :
+Ajoutez tous les commentaires manquants identifiés dans les nuanceurs fournis ci-bas. Vos commentaires doivent montrer que vous comprenez ce que fait l'énoncé.
+BONUS [1pt] Que fait selon vous ce nuanceur? (Si on voulait afficher seulement un triangle ou un quad quel serait le résultat)
+
+[BONUS] : Ce nuanceur semble être utilisé pour afficher un mur de briques avec un éclairage basique (diffus et spéculaire) selon le modèl de Phong. Si on voulait afficher seulement un triangle ou un quad, le résultat serait une portion de mur de briques éclairée. La taille, la forme et l’orientation des briques dépendraient des coordonnées des sommets du triangle ou du quad. L’éclairage dépendrait de la position et de l’orientation de la surface par rapport à la source de lumière.
+
+
+Le nuanceur de sommets :
+#version 410
+// Définiton des paramètres des matériaux
+layout (std140) uniform MaaterialParameters
+{
+vec4 diffuse, specular;
+} FrontParams;
+
+layout(location=0) in vec4 Vertex;
+layout(location=2) in vec3 Normal;
+
+uniform mat4 ModelViewMatrix;
+uniform mat4 ModelViewProjMatrix;
+uniform mat3 NormalMatrix;
+
+out Attribs { 
+	float IntensiteLumi;
+	vec2 ModelPos;
+} AttribsOut;
+
+1 void main(void)
+2 {
+3
+4
+5 // Calculer la position du sommet
+6 gl_Position = ModelViewProjMatrix * Vertex;
+7
+8
+9
+10 // Calculer la position du sommet dans le repère de la caméra
+11 vec3 pos = vec3(ModelViewProjMatrix * Vertex);
+12
+13 // calculer le vecteur d'obsérvation de l'illumination
+14 vec3 obsVec = normalize(-pos);
+15 
+16 // Transformation de la normale en coordonnées de vue
+17 vec3 N = normalize(NormalMatrix * normal);
+18
+19 // 
+20 lumDir = normalize(LightSource.position - obsVec);
+21 
+22 // Calcul du Vecteur de réfléxion spec idéal R
+23 reflectVec = reflect(-lumiDir, N);
+24 
+25 // Calcul de l'intensité diffuse
+26 float diffuse = max(dot(lumiDir, N), 0.0);
+27
+28 float spec =0.0
+29
+30 if (diffuse > 0.0)
+31 {
+32 	// Calcul de l'intensité spéculaire
+33 	spec = max(dot(reflectVec, obsVec), 0.0);
+34 	
+35 	// spec^16 
+36 	spec = pow(spec, 16.0);
+37 }
+38 
+39 // Calcul de l'intensité lumineuse totale
+40 AttribsOut.IntensitetLumi = FrontMaterial.diffuse * LightSource.diffuse * diffuse + FrontMaterial.spec * LightSource.spec * spec
+41
+42 // On récupère seulement les composantes XY pour le prochain nuanceur
+43 AttribsOut.ModelPos = Vertex.xy;
+44
+45 }
+
+Le nuanceur de fragments :
+#version 410
+
+uniform vec3 BrickColor, MortarColor;
+uniform vec2 BrickSize;
+
+uniform vec2 BrickPct;
+
+in Attribs {
+	vec2 ModelPos;
+	float IntesniteLumi;
+} AttribsIn;
+
+out vec4 FragColor;
+
+46 void main(void)
+47 {
+48 vec3 coul;
+49 vec3 position, useBrick;
+50
+51 position = AttribsIn.ModelPos / BrickSize;
+52 
+53 /*
+54  * N.B fract() retourne la partie fractionnaire d'un nombre.
+55  * Par example fract (2.51) aura 0.51 comme valeur de retour.
+56  */
+57 if ( fract(position.y*0.5) > 0.5 )
+58 {
+59     position.x +=0.5;
+60 } 
+61 
+62 position = fract(position);
+63
+64 /*
+65  * step(edge, x) compare le paramètre "x" avec le paramètre "edge"
+66  * Example d<utilisation : if (x < edge ) return 0.0 else return 1.0
+67  */
+68 useBrick - step (position, BrickPct);
+69 
+70 // Interpolation linéaire de couleur entre le mortier et la brique en fonction de leur présence
+71 coul = mix(MortarColor, BrickColor, useBrick.x*useBrick.y);
+72
+73 // Application de l'intensité lumineuse
+74 coul *= AttribsIn.IntensiteLumi;
+75
+76 // Assigner la couleur finale au fragment
+77 FragColor = vec4( c.rgb, 1.0 );
+78 }
+
+Question 15 [BONUS] :
+Après les travaux pratique, vous trouvez que malgré l'utilisation de texture en combinaison avec les modèles d'illumination, nos scène ne sont toujours pas suffisamment élaborée. 
+1. Rédiger un pseudo code afin d'ajouter des ombres dans notre scène pour tous les modèles illuminés Indiquez également dans quel(s) nuanceur(s) vous réaliserez cela?
+
+// Dans le nuanceur de fragment pour le calcul de l'éclairage
+// Ajouter une fonction pour calculer les ombres
+
+vec3 calculateShadow(vec3 lightPosition, vec3 surfacePosition) {
+    vec3 shadowColor = vec3(1.0); // Couleur par défaut sans ombre
+    // Faire un test de visibilité entre le point à éclairer et la source de lumière
+    // Utiliser une méthode comme le lancer de rayon ou le test de visibilité avec une carte d'ombres
+    if (!isInShadow(surfacePosition, lightPosition)) {
+        // Si le point n'est pas dans l'ombre, calculer l'éclairage normalement
+        shadowColor = vec3(1.0); // Ou une autre couleur pour l'éclairage sans ombre
+    }
+    return shadowColor;
+}
+
+// Dans la fonction principale du nuanceur de fragment
+void main() {
+    // Calcul de l'éclairage diffus et spéculaire
+    vec3 diffuseColor = calculateDiffuse(lightPosition, normal, surfaceColor);
+    vec3 specularColor = calculateSpecular(lightPosition, normal, viewDirection, surfaceColor, shininess);
+    
+    // Calculer les ombres
+    vec3 shadowColor = calculateShadow(lightPosition, surfacePosition);
+    
+    // Appliquer les couleurs avec les ombres
+    vec3 finalColor = ambientColor + shadowColor * (diffuseColor + specularColor);
+    gl_FragColor = vec4(finalColor, 1.0);
+}
+
+
+2. Rédiger un pseudo code afin de réaliser du tracé rayon pour représenter l'ilumination des objets en fonction de la lumière réfléchie sur les surfaces brillantes. Dans quel(s) nuanceur(s) vous réaliserez cela?
+
+// Dans le nuanceur de fragment pour le calcul de l'éclairage
+// Ajouter une fonction pour calculer l'illumination des surfaces brillantes
+
+vec3 calculateReflection(vec3 surfacePosition, vec3 surfaceNormal, vec3 viewDirection, vec3 lightPosition, vec3 lightColor) {
+    vec3 reflectionColor = vec3(0.0); // Couleur réfléchie initiale
+    
+    // Calculer la direction du rayon réfléchi
+    vec3 reflectionDirection = reflect(-viewDirection, surfaceNormal);
+    
+    // Calculer l'intensité de l'illumination spéculaire
+    float specularIntensity = max(dot(reflectionDirection, normalize(lightPosition - surfacePosition)), 0.0);
+    
+    // Calculer la couleur réfléchie en fonction de l'intensité lumineuse
+    reflectionColor = lightColor * pow(specularIntensity, shininess); // shininess est la brillance de la surface
+    
+    return reflectionColor;
+}
+
+// Dans la fonction principale du nuanceur de fragment
+void main() {
+    // Calcul de l'éclairage diffus
+    vec3 diffuseColor = calculateDiffuse(lightPosition, normal, surfaceColor);
+    
+    // Calcul de l'illumination spéculaire réfléchie
+    vec3 reflectionColor = calculateReflection(surfacePosition, normal, viewDirection, lightPosition, lightColor);
+    
+    // Appliquer les couleurs avec l'illumination réfléchie
+    vec3 finalColor = ambientColor + diffuseColor + reflectionColor;
+    gl_FragColor = vec4(finalColor, 1.0);
+}
